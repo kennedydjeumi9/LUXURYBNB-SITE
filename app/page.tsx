@@ -1,21 +1,62 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Star, Car, Gauge, Battery, Sparkles, Wifi, Utensils, Car as ParkingIcon, Users, Tv, Home } from 'lucide-react'
-import fs from 'fs'
-import path from 'path'
+import { useEffect, useRef, useState } from 'react'
+
+function useScrollAnimation() {
+  const ref = useRef<HTMLDivElement>(null)
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-float-in')
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+    
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+    
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current)
+      }
+    }
+  }, [])
+  
+  return ref
+}
 
 function getLocalGallery(): string[] {
-  try {
-    const dir = path.join(process.cwd(), 'public', 'gallery')
-    if (!fs.existsSync(dir)) return []
-    const files = fs.readdirSync(dir)
-    const allowed = new Set(['.jpg', '.jpeg', '.png', '.webp'])
-    return files
-      .filter((f) => allowed.has(path.extname(f).toLowerCase()))
-      .map((f) => `/gallery/${f}`)
-  } catch {
-    return []
+  const gallery = []
+  
+  // Check for each image number and try both extensions
+  for (let i = 1; i <= 116; i++) {
+    // Try .jpg first, then .jpeg
+    // Based on the directory listing, we know the exact pattern
+    if (i <= 6) {
+      // Images 1-6 are .jpg
+      gallery.push(`/gallery/image${i}.jpg`)
+    } else if (i >= 7 && i <= 58) {
+      // Images 7-58 are .jpeg
+      gallery.push(`/gallery/image${i}.jpeg`)
+    } else if (i >= 59 && i <= 64) {
+      // Images 59-64 are .jpg
+      gallery.push(`/gallery/image${i}.jpg`)
+    } else if (i >= 65 && i <= 116) {
+      // Images 65-116 are .jpeg
+      gallery.push(`/gallery/image${i}.jpeg`)
+    }
   }
+  
+  return gallery
 }
 
 export default function HomePage() {
@@ -33,6 +74,13 @@ export default function HomePage() {
         'https://ssl.cdn-redfin.com/photo/166/mbphoto/166/genMid.DCDC2144700_7.jpg',
         'https://ssl.cdn-redfin.com/photo/166/mbphoto/166/genMid.DCDC2144700_8.jpg',
       ]
+  
+  const heroRef = useScrollAnimation()
+  const titleRef = useScrollAnimation()
+  const subtitleRef = useScrollAnimation()
+  const descriptionRef = useScrollAnimation()
+  const buttonsRef = useScrollAnimation()
+
   return (
     <main>
       <section className="relative overflow-hidden">
@@ -46,17 +94,17 @@ export default function HomePage() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
         </div>
-        <div className="relative z-10 container py-32 text-center text-white">
-          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight font-bold mb-6">
+        <div ref={heroRef} className="relative z-10 container py-32 text-center text-white opacity-0">
+          <h1 ref={titleRef} className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight font-bold mb-6 opacity-0 transform translate-y-8">
             Your journey, made extraordinary
           </h1>
-          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-light mb-8 text-gray-100">
+          <h2 ref={subtitleRef} className="font-display text-2xl md:text-3xl lg:text-4xl font-light mb-8 text-gray-100 opacity-0 transform translate-y-8">
             Luxury stays, thoughtfully designed for every traveler
           </h2>
-          <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto mb-10 text-gray-200 leading-relaxed">
+          <p ref={descriptionRef} className="mt-6 text-lg md:text-xl max-w-3xl mx-auto mb-10 text-gray-200 leading-relaxed opacity-0 transform translate-y-8">
             Welcome to Kwamou Luxury Stays, where you can discover our collection of retreats nestled in the most sought-after destinations. Immerse yourself in the perfect balance of style and comfort as you enjoy stays that have been carefully curated for families, friends, and business travelers alike.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+          <div ref={buttonsRef} className="mt-10 flex flex-col sm:flex-row justify-center gap-4 opacity-0 transform translate-y-8">
             <Link href="https://www.airbnb.com/rooms/1572548932592569761?viralityEntryPoint=1&s=76&source_impression_id=p3_1770146471_P3lICg-adODSOdr2" className="inline-flex items-center justify-center rounded-full bg-gold-500 px-8 py-4 font-semibold text-neutral-900 hover:bg-gold-400 transition text-lg" target="_blank">
               Book Your Stay
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -74,71 +122,37 @@ export default function HomePage() {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">Discover our curated collection of luxury properties in prime locations</p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Property Card 1 */}
-          <div className="group cursor-pointer">
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Main Property Card */}
+          <div className="group cursor-pointer lg:col-span-2">
             <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-4">
               <Image 
                 src={gallery[0] || hero} 
-                alt="Luxury DC Property" 
+                alt="Kwamou Luxury Stays - Washington, DC" 
                 fill 
                 className="object-cover group-hover:scale-105 transition-transform duration-300" 
               />
             </div>
-            <h3 className="font-display text-xl font-semibold mb-2 group-hover:text-gold-700 transition-colors">
-              Luxury 2BR + Parking | Heart of DC – Walk to Metro
+            <h3 className="font-display text-2xl font-semibold mb-2 group-hover:text-gold-700 transition-colors">
+              Kwamou Luxury Stays | Washington, DC
             </h3>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
-              <span>4 Guest(s)</span>
+            <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+              <span>10 Guest(s)</span>
               <span>•</span>
-              <span>2 Bed(s)</span>
+              <span>5 Bedrooms</span>
               <span>•</span>
-              <span>1.5 Bath(s)</span>
+              <span>6 Beds</span>
+              <span>•</span>
+              <span>5.5 Baths</span>
             </div>
-          </div>
-
-          {/* Property Card 2 */}
-          <div className="group cursor-pointer">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-4">
-              <Image 
-                src={gallery[1] || hero} 
-                alt="Luxury Beach Property" 
-                fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-300" 
-              />
-            </div>
-            <h3 className="font-display text-xl font-semibold mb-2 group-hover:text-gold-700 transition-colors">
-              Luxe Beach Home | Heated Pool | Steps to Ocean
-            </h3>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
-              <span>8 Guest(s)</span>
-              <span>•</span>
-              <span>4 Bed(s)</span>
-              <span>•</span>
-              <span>2 Bath(s)</span>
-            </div>
-          </div>
-
-          {/* Property Card 3 */}
-          <div className="group cursor-pointer">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-4">
-              <Image 
-                src={gallery[2] || hero} 
-                alt="Luxury DC Property with Outdoor Space" 
-                fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-300" 
-              />
-            </div>
-            <h3 className="font-display text-xl font-semibold mb-2 group-hover:text-gold-700 transition-colors">
-              Luxe 3BR+Parking & Outdoor Space | 6-min to DC
-            </h3>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
-              <span>6 Guest(s)</span>
-              <span>•</span>
-              <span>3 Bed(s)</span>
-              <span>•</span>
-              <span>2 Bath(s)</span>
-            </div>
+            <Link 
+              href="https://www.airbnb.com/rooms/1572548932592569761?viralityEntryPoint=1&s=76&source_impression_id=p3_1770146471_P3lICg-adODSOdr2" 
+              target="_blank"
+              className="inline-flex items-center rounded-full bg-gold-500 px-6 py-3 font-semibold text-neutral-900 hover:bg-gold-400 transition"
+            >
+              Book This Property
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </div>
         </div>
 

@@ -14,3 +14,45 @@ html, body {
 .container {
   max-width: 1200px;
 }
+
+/* Floating animations */
+.animate-float-in {
+  animation: floatIn 1s ease-out forwards, float 3s ease-in-out infinite;
+}
+
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Staggered animation delays */
+.animate-float-in:nth-child(1) { animation-delay: 0.1s; }
+.animate-float-in:nth-child(2) { animation-delay: 0.2s; }
+.animate-float-in:nth-child(3) { animation-delay: 0.3s; }
+.animate-float-in:nth-child(4) { animation-delay: 0.4s; }
+.animate-float-in:nth-child(5) { animation-delay: 0.5s; }
+
+/* Smooth text transitions */
+.text-float {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.text-float:hover {
+  transform: translateY(-5px) scale(1.02);
+  text-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
