@@ -35,28 +35,33 @@ function useScrollAnimation() {
 }
 
 function getLocalGallery(): string[] {
-  const gallery = []
-  
-  // Check for each image number and try both extensions
-  for (let i = 1; i <= 116; i++) {
-    // Try .jpg first, then .jpeg
-    // Based on the directory listing, we know the exact pattern
-    if (i <= 6) {
-      // Images 1-6 are .jpg
-      gallery.push(`/gallery/image${i}.jpg`)
-    } else if (i >= 7 && i <= 58) {
-      // Images 7-58 are .jpeg
-      gallery.push(`/gallery/image${i}.jpeg`)
-    } else if (i >= 59 && i <= 64) {
-      // Images 59-64 are .jpg
-      gallery.push(`/gallery/image${i}.jpg`)
-    } else if (i >= 65 && i <= 116) {
-      // Images 65-116 are .jpeg
-      gallery.push(`/gallery/image${i}.jpeg`)
-    }
-  }
-  
-  return gallery
+  // Static array of all 116 images with correct extensions for production deployment
+  return [
+    // Images 1-6 (.jpg)
+    '/gallery/image1.jpg', '/gallery/image2.jpg', '/gallery/image3.jpg', '/gallery/image4.jpg', '/gallery/image5.jpg', '/gallery/image6.jpg',
+    // Images 7-58 (.jpeg)
+    '/gallery/image7.jpeg', '/gallery/image8.jpeg', '/gallery/image9.jpeg', '/gallery/image10.jpeg', '/gallery/image11.jpeg', '/gallery/image12.jpeg',
+    '/gallery/image13.jpeg', '/gallery/image14.jpeg', '/gallery/image15.jpeg', '/gallery/image16.jpeg', '/gallery/image17.jpeg', '/gallery/image18.jpeg',
+    '/gallery/image19.jpeg', '/gallery/image20.jpeg', '/gallery/image21.jpeg', '/gallery/image22.jpeg', '/gallery/image23.jpeg', '/gallery/image24.jpeg',
+    '/gallery/image25.jpeg', '/gallery/image26.jpeg', '/gallery/image27.jpeg', '/gallery/image28.jpeg', '/gallery/image29.jpeg', '/gallery/image30.jpeg',
+    '/gallery/image31.jpeg', '/gallery/image32.jpeg', '/gallery/image33.jpeg', '/gallery/image34.jpeg', '/gallery/image35.jpeg', '/gallery/image36.jpeg',
+    '/gallery/image37.jpeg', '/gallery/image38.jpeg', '/gallery/image39.jpeg', '/gallery/image40.jpeg', '/gallery/image41.jpeg', '/gallery/image42.jpeg',
+    '/gallery/image43.jpeg', '/gallery/image44.jpeg', '/gallery/image45.jpeg', '/gallery/image46.jpeg', '/gallery/image47.jpeg', '/gallery/image48.jpeg',
+    '/gallery/image49.jpeg', '/gallery/image50.jpeg', '/gallery/image51.jpeg', '/gallery/image52.jpeg', '/gallery/image53.jpeg', '/gallery/image54.jpeg',
+    '/gallery/image55.jpeg', '/gallery/image56.jpeg', '/gallery/image57.jpeg', '/gallery/image58.jpeg',
+    // Images 59-64 (.jpg)
+    '/gallery/image59.jpg', '/gallery/image60.jpg', '/gallery/image61.jpg', '/gallery/image62.jpg', '/gallery/image63.jpg', '/gallery/image64.jpg',
+    // Images 65-116 (.jpeg)
+    '/gallery/image65.jpeg', '/gallery/image66.jpeg', '/gallery/image67.jpeg', '/gallery/image68.jpeg', '/gallery/image69.jpeg', '/gallery/image70.jpeg',
+    '/gallery/image71.jpeg', '/gallery/image72.jpeg', '/gallery/image73.jpeg', '/gallery/image74.jpeg', '/gallery/image75.jpeg', '/gallery/image76.jpeg',
+    '/gallery/image77.jpeg', '/gallery/image78.jpeg', '/gallery/image79.jpeg', '/gallery/image80.jpeg', '/gallery/image81.jpeg', '/gallery/image82.jpeg',
+    '/gallery/image83.jpeg', '/gallery/image84.jpeg', '/gallery/image85.jpeg', '/gallery/image86.jpeg', '/gallery/image87.jpeg', '/gallery/image88.jpeg',
+    '/gallery/image89.jpeg', '/gallery/image90.jpeg', '/gallery/image91.jpeg', '/gallery/image92.jpeg', '/gallery/image93.jpeg', '/gallery/image94.jpeg',
+    '/gallery/image95.jpeg', '/gallery/image96.jpeg', '/gallery/image97.jpeg', '/gallery/image98.jpeg', '/gallery/image99.jpeg', '/gallery/image100.jpeg',
+    '/gallery/image101.jpeg', '/gallery/image102.jpeg', '/gallery/image103.jpeg', '/gallery/image104.jpeg', '/gallery/image105.jpeg', '/gallery/image106.jpeg',
+    '/gallery/image107.jpeg', '/gallery/image108.jpeg', '/gallery/image109.jpeg', '/gallery/image110.jpeg', '/gallery/image111.jpeg', '/gallery/image112.jpeg',
+    '/gallery/image113.jpeg', '/gallery/image114.jpeg', '/gallery/image115.jpeg', '/gallery/image116.jpeg'
+  ]
 }
 
 export default function HomePage() {
